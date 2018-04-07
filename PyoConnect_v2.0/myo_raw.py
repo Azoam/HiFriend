@@ -15,7 +15,7 @@ import struct
 import sys
 import threading
 import time
-
+from myo import init, Hub, Device Listener
 import serial
 from serial.tools.list_ports import comports
 
@@ -462,10 +462,10 @@ if __name__ == '__main__':
 
     m.add_emg_handler(proc_emg)
     m.connect()
-
+    
+    print("AAAAAAAAAAAAAAAAAAAH"+str(my.getGyro))
     m.add_arm_handler(lambda arm, xdir: print('arm', arm, 'xdir', xdir))
     m.add_pose_handler(lambda p: print('pose', p))
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH"+str(m.getXDirection()))
     try:
         while True:
             m.run(1)
