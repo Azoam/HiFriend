@@ -465,7 +465,7 @@ if __name__ == '__main__':
 
     m.add_arm_handler(lambda arm, xdir: print('arm', arm, 'xdir', xdir))
     m.add_pose_handler(lambda p: print('pose', p))
-
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHH"+str(m.getXDirection()))
     try:
         while True:
             m.run(1)
