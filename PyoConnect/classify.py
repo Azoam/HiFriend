@@ -25,19 +25,30 @@ numpy.random.shuffle(dataset)
 numpy.savetxt(matrixfile, dataset)
 X = dataset[:, 0:500].astype(float)
 Y = dataset[:, 500].astype(int)
+
+
+
+
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y)
+encoded_Y = encoder.transform(Y)
+hot_y = np_utils.to_categorical(encoded_Y)
 def baseline_model():
 	#create model
 	model = Sequential()
-	model.add(Dense(output_dim = 500, input_dim = 500, activation = 'tanh'))
-	model.add(Dense(output_dim = 5, init = 'uniform', activation='softmax'))
+	model.add(Dense(output_dim = 200, input_dim = 500, activation = 'tanh'))
+	model.add(Dense(output_dim = 5, input_dim = 200, init = 'uniform', activation='softmax'))
 	#compile
 	model.compile(loss='categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
+	model.fit(X, hot_y, epochs=100, batch_size=500, verbose =1)
 	model.save(savename)
+	return model
 
- 	return model
 
 
-estimator = KerasClassifier(build_fn=baseline_model, epochs=100, batch_size=100, verbose=1)
+print("generating metrics")
+estimator = KerasClassifier(build_fn=baseline_model, epochs=100, batch_size=100, verbose=0)
 kfold = KFold(n_splits = 5, shuffle=True, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
 mfile = open("metrics.txt", "a")
