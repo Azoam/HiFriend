@@ -43,6 +43,10 @@ def baseline_model():
 	model.compile(loss='categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 	model.fit(X, hot_y, epochs=100, batch_size=500, verbose =1)
 	model.save(savename)
+	
+
+	pred = model.predict(X(4), verbose =0)
+	print(pred)
 	return model
 
 

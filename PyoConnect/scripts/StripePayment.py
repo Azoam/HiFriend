@@ -6,9 +6,10 @@ def stripePayment( recipient = 0 ):
 	amount = 1000
 	currency = "usd"
 	description = "Charge via HiFriend handshake"
-	twilioNum = os.environ.get('Ez_Twilio_Number')
-	twilioSid = os.environ.get('Ez_Twilio_SID')
-	twilioToken = os.environ.get('Ez_Twilio_Token')
+	twilioNum = os.environ.get('SaraAnn_Phone_Number')
+	twilioSid = os.environ.get('SaraAnn_Twilio_SID')
+	twilioToken = os.environ.get('SaraAnn_Twilio_Token')
+	print(twilioNum, twilioSid, twilioToken)
 	print("Attempting charge ...")
 	if(recipient == 0):
 		stripe.api_key = os.environ.get('Ez_Stripe_Secret')
@@ -35,14 +36,15 @@ def stripePayment( recipient = 0 ):
 	client = Client(twilioSid, twilioToken)
 
 	
-	client.api.account.messages.create(
-    		to=payerNum,
-    		from_=twilioNum,
-    		body='paybody')
-	client.api.account.messages.create(
+	client.messages.create(
+    		to= payerNum,
+    		from_= twilioNum,
+		body= result.outcome.seller_message + "\n" + "Paid: $" + str(dollaramount) + "\nTo: HiFriend") 
+
+	client.messages.create(
 		to=receiverNum,
-		from_=twilioNum,
-		body=result.outcome.seller_message + '\n' + 'Received: $'+ str(dollaramount) + '\nfrom: ' + payerNum) 
+		from_ = twilioNum,
+		body= result.outcome.seller_message + "\n" + "Received: $" + str(dollaramount) + "\nFrom: HiFriend") 
 
 
 stripePayment(0)

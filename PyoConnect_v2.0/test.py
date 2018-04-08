@@ -8,8 +8,9 @@ var1 = 1
 var2 = 2
 
 if __name__ == "__main__":
-  call()
-  text()
+#  call()
+#  text()
+  gif()
 #  app.run()
 #if var1 == 1:
   #  call()
