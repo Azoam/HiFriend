@@ -53,21 +53,21 @@ def test(quat, acc, gyro, tty):
    global sam
    global ezra
    for x in quat:
-       if tty == "/dev/ttyACM0":
+        if tty == "/dev/ttyACM0":
            classifySam.append(x)
         else:
             classifyEzra.append(x)
-    for x in acc:
+   for x in acc:
         if str(tty) == "/dev/ttyACM1":
             classifySam.append(x)
         else:
             classifyEzra.append(x)
-    for x in gyro:
+   for x in gyro:
         if str(tty) == "/dev/ttyACM1":
             classifySam.append(x)
         else:
             ezra += str(x)+","
-    if len(classifySam) >= 1000 and len(classifyEzra) >= 1000:
+   if len(classifySam) >= 1000 and len(classifyEzra) >= 1000:
         samArr = model.predict((classifySam[:500]+classifySam[500:])/2)
         #ezraArr = model.predict((classifyEzra[:500]+classifyEzra[500:])/2)
         print(samArr)

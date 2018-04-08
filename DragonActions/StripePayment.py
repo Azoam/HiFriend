@@ -19,28 +19,30 @@ def stripePayment( recipient = 0 ):
 			source = "tok_mastercard", 
 			description = "Charge via HiFriend handshake"
 		)
-		
+
 		payerNum = os.environ.get('Sam_Phone_Number')
 		receiverNum = os.environ.get('Ez_Phone_Number')
+		dollaramount = (float)(result.amount) / 100
+		#recbody = 
+		#paybody = result.outcome.seller_message + '\n' + 'Paid: ${:10.2f} \n'.format(result.amount) + 'to: ' + receiverNum
+		
+		
 
 
 
 
 
 	client = Client(twilioSid, twilioToken)
-	
-	dollaramount = (float)(result.amount) / 100
-	recbody = result.outcome.seller_message + '\n' + 'Received: ${,.2f}\n'.format(dollaramount) + 'from: ' + payerNum 	
-	paybody = result.outcome.seller_message + '\n' + 'Paid: ${:10.2f} \n'.format(result.amount) + 'to: ' + receiverNum
+
 	
 	client.api.account.messages.create(
     		to=payerNum,
     		from_=twilioNum,
-    		body=paybody)
+    		body='paybody')
 	client.api.account.messages.create(
 		to=receiverNum,
 		from_=twilioNum,
-		body=paybody)
+		body=result.outcome.seller_message + '\n' + 'Received: $'+ str(dollaramount) + '\nfrom: ' + payerNum) 
 
 
 stripePayment(0)
