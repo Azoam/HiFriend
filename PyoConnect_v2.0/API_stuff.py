@@ -1,15 +1,27 @@
 import os
 from twilio.rest import Client
-from twilio.twiml.voice_response import Play, VoiceResponse
-
+from twilio.twiml.voice_response import Dial, Play, VoiceResponse
+from flask import Flask
 
 account_sid = "AC7788c9bc0efe0c99795a9fd1c93cce1a"
-auth_token  = "b00440261911f15310141bb2ceff295c"#"b895cced74836dd8172877ae49bc73bb"# "b00440261911f15310141bb2ceff295c"
+auth_token  = "b00440261911f15310141bb2ceff295c"
 client = Client(account_sid, auth_token)
-#response = VoiceResponse()
-#response.play('garbage.mp3', loop=2)
+
+app = Flask(__name__)
+app.route('/conference', methods=['GET', 'POST'])
+def call():
+    r = VoiceResponse()
+    phone_numbers = ["+17327591778", "+19178651377"]
+    r.dial().conference('1')
+    for number in phone_numbers:
+            call = client.calls.create(to=number,
+                               from_="+17322274290",
+                               url='http://twimlets.com/conference')
 
 
 
-call = client.calls.create(to="+17327591778", from_ = "+17322274290", url="http://demo.twilio.com/docs/voice.xml")
-print (call.sid)
+if __name__ == "__main__":
+  call()
+  app.run()
+  #port = int(os.environ.get("PORT", 5000)
+  #app.run(host='0.0.0.0', port=port, debug="true")
