@@ -3,9 +3,14 @@ myo = Myo(sys.argv[1] if len (sys.argv) >= 2 else None)
 
 
 def something(quat, acc, gyro):
-    print("QUAT"+str(quat))
-    print("ACC"+str(acc))
-    print("GYRO"+str(gyro))
+    featureVector = []
+    for x in quat:
+        featureVector.append(x)
+    for x in acc:
+        featureVector.append(x)
+    for x in gyro:
+        featureVector.append(x)
+    
 
 
 
