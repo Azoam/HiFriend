@@ -13,7 +13,11 @@ import sys
 from PyoConnect import *
 myo1 = Myo(None, tty=sys.argv[1] if len (sys.argv) >= 2 else None)
 myo2 = Myo(None, tty=sys.argv[2] if len (sys.argv) >= 2 else None)
-featureVector = []
+featureVector = np.array([])
+classifySam = np.array([])
+classifyEzra = []
+sam = ""
+ezra = ""
 MAX = 2000
 ITERATION = 0
 SAMPLES = 100
@@ -44,7 +48,30 @@ def something(quat, acc, gyro, tty):
 
 
 def test(quat, acc, gyro, tty):
-   pass 
+   global classifySam
+   global classifyEzra
+   global sam
+   global ezra
+   for x in quat:
+       if tty == "/dev/ttyACM0":
+           classifySam.append(x)
+        else:
+            classifyEzra.append(x)
+    for x in acc:
+        if str(tty) == "/dev/ttyACM1":
+            classifySam.append(x)
+        else:
+            classifyEzra.append(x)
+    for x in gyro:
+        if str(tty) == "/dev/ttyACM1":
+            classifySam.append(x)
+        else:
+            ezra += str(x)+","
+    if len(classifySam) >= 1000 and len(classifyEzra) >= 1000:
+        samArr = model.predict(classifySam)
+        ezraArr = model.predict(classifyEzra)
+        print(samArr)
+        print(ezraArr)
 
 
 myo1.add_imu_handler(test)
