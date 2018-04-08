@@ -25,8 +25,6 @@ numpy.random.shuffle(dataset)
 numpy.savetxt(matrixfile, dataset)
 X = dataset[:, 0:500].astype(float)
 Y = dataset[:, 500].astype(int)
-
-#baseline model
 def baseline_model():
 	#create model
 	model = Sequential()
@@ -35,14 +33,15 @@ def baseline_model():
 	#compile
 	model.compile(loss='categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 	model.save(savename)
-	return model
+
+ 	return model
+
 
 estimator = KerasClassifier(build_fn=baseline_model, epochs=100, batch_size=100, verbose=1)
-kfold = KFold(n_splits = 7, shuffle=True, random_state=seed)
+kfold = KFold(n_splits = 5, shuffle=True, random_state=seed)
 results = cross_val_score(estimator, X, Y, cv=kfold)
 mfile = open("metrics.txt", "a")
 mfile.write("Baseline: %.2f%% (%.2f%%)\n" %  (results.mean()*100, results.std()*100))
-estimator.fit(X, Y)
 
 
 mfile.close()
