@@ -10,14 +10,15 @@ import sys
 #from sklearn.model_selection import KFold
 #from sklearn.preprocessing import LabelEncoder
 #from sklearn.pipline import Pipeline
-from PyoConnectLib import *
-myo = Myo(sys.argv[1] if len (sys.argv) >= 2 else None)
+from PyoConnect import *
+myo1 = Myo(None, tty=sys.argv[1] if len (sys.argv) >= 2 else None)
+myo2 = Myo(None, tty=sys.argv[2] if len (sys.argv) >= 2 else None)
 featureVector = []
 MAX = 2000
 ITERATION = 0
 SAMPLES = 100
 
-def something(quat, acc, gyro):
+def something(quat, acc, gyro, tty):
     global featureVector
     global ITERATION
     global SAMPLES
@@ -42,17 +43,22 @@ def something(quat, acc, gyro):
         featureVector = []
 
 
+def test(quat, acc, gyro, tty):
+   pass 
 
 
-
-myo.add_imu_handler(something)
-print("STARING IN 5 SECONDS!")
+myo1.add_imu_handler(test)
+myo2.add_imu_handler(test)
+print("STARING IN 5 SECONDS!")#time.sleep(5)
 time.sleep(5)
-myo.connect()
+myo1.connect()
+myo2.connect()
 try:
     while True:
-        myo.run(1)
+        myo1.run(1)
+        myo2.run(1)
 except KeyboardInterrupt:
     pass
 finally:
-    myo.disconnect()
+    myo1.disconnect()
+    myo2.disconnect()

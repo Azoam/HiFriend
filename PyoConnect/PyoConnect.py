@@ -52,7 +52,7 @@ from myo_raw import MyoRaw, Pose, Arm, XDirection
 
 class Myo(MyoRaw):
 
-    def __init__(self, cls, tty = None):
+    def __init__(self, cls, tty):
         self.locked = True
         self.use_lock = True
         self.timed = True
@@ -139,7 +139,7 @@ class Myo(MyoRaw):
         elif self.onWear != None:
             self.onWear(self.current_arm, self.current_xdir)
 
-    def imu_handler(self, quat, acc, gyro):
+    def imu_handler(self, quat, acc, gyro, tty):
         q0, q1, q2, q3 = quat
         q0 = q0 / 16384.0
         q1 = q1 / 16384.0
