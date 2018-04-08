@@ -19,7 +19,7 @@ import serial
 from serial.tools.list_ports import comports
 
 from common import *
-
+found = None
 def multichr(ords):
     if sys.version_info[0] >= 3:
         return bytes(ords)
@@ -176,8 +176,7 @@ class BT(object):
 
 class MyoRaw(object):
     '''Implements the Myo-specific communication protocol.'''
-
-    def __init__(self, tty=None):
+    def __init__(self, tty):
         if tty is None:
             tty = self.detect_tty()
         if tty is None:
@@ -189,12 +188,18 @@ class MyoRaw(object):
         self.imu_handlers = []
         self.arm_handlers = []
         self.pose_handlers = []
+        self.tty = tty
+        if str(tty) == "/dev/ttyACM0":
+            self.check = 0
+        else:
+            self.check = 1
 
     def detect_tty(self):
-        for p in comports():
-            if re.search(r'PID=2458:0*1', p[2]):
-                print('using device:', p[0])
-                return p[0]
+        return self.tty
+        #for p in comports():
+            #if re.search(r'PID=2458:0*1', p[2]):
+                #print('using device:', p[0])
+                #return p[0]
 
         return None
 
@@ -202,6 +207,7 @@ class MyoRaw(object):
         self.bt.recv_packet(timeout)
 
     def connect(self):
+        global found
         ## stop everything from before
         self.bt.end_scan()
         self.bt.disconnect(0)
@@ -216,8 +222,13 @@ class MyoRaw(object):
             print('scan response:', p)
 
             if p.payload.endswith(b'\x06\x42\x48\x12\x4A\x7F\x2C\x48\x47\xB9\xDE\x04\xA9\x01\x00\x06\xD5'):
-                addr = list(multiord(p.payload[2:8]))
-                break
+                if found == None:
+                    found = multiord(p.payload[2:8])
+                    addr = list(multiord(p.payload[2:8]))
+                    break
+                elif multiord(p.payload[2:8]) != found:
+                    addr = list(multiord(p.payload[2:8]))
+                    break
         self.bt.end_scan()
 
         ## connect and wait for status event
@@ -293,7 +304,7 @@ class MyoRaw(object):
                 quat = vals[:4]
                 acc = vals[4:7]
                 gyro = vals[7:10]
-                self.on_imu(quat, acc, gyro)
+                self.on_imu(quat, acc, gyro,0)
             elif attr == 0x23:
                 typ, val, xdir, _,_,_ = unpack('6B', pay)
 
@@ -392,9 +403,9 @@ class MyoRaw(object):
         for h in self.emg_handlers:
             h(emg, moving)
 
-    def on_imu(self, quat, acc, gyro):
+    def on_imu(self, quat, acc, gyro, tty):
         for h in self.imu_handlers:
-            h(quat, acc, gyro)
+            h(quat, acc, gyro, self.detect_tty())
 
     def on_pose(self, p):
         for h in self.pose_handlers:
