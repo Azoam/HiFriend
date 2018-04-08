@@ -68,10 +68,12 @@ def test(quat, acc, gyro, tty):
         else:
             ezra += str(x)+","
     if len(classifySam) >= 1000 and len(classifyEzra) >= 1000:
-        samArr = model.predict(classifySam)
-        ezraArr = model.predict(classifyEzra)
+        samArr = model.predict((classifySam[:500]+classifySam[500:])/2)
+        #ezraArr = model.predict((classifyEzra[:500]+classifyEzra[500:])/2)
         print(samArr)
-        print(ezraArr)
+        #print(ezraArr)
+        classifySam = np.array([])
+        classifyEzra = np.array([])
 
 
 myo1.add_imu_handler(test)
