@@ -22,7 +22,7 @@ points it can measure in less than second and 500 of these 9 data points in one 
 ## Averaging over a time period
 Once we got our model we were able to do averaging over a time period, (so about 1000 points were measured before it stopped and averaging downt to 500 points) we were able to define a gesture every 5 seconds (5 seconds is sufficient enough to change state without too much overlap from other states and noise). So when we predicted the average on both armbands we defined states where an example is -> state 1: Both people are shaking their hands -> logic.
 
-##API's
+## API's
 
 ##Problems and Potential Solutions
 Unfortunately we were not able to demo and the reason was hardware. The Dragon board did not supply use with the hardware we needed. We spent most of our time downloading dependencies, fixing network errors, and downloading tensorflow. Tensorflow is not an easy library to download to begin with and putting it on such a small machine with its own Debian distribution of Linux spilled disaster every where.
