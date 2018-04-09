@@ -1,4 +1,4 @@
-# HiFriend | HackNY - 2019
+# HiFriend | HackNY - Spring 2018
     0. The Plan
     1. Reading in data from Myo Armbands
     2. Classifying and Training
