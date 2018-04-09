@@ -24,7 +24,7 @@ Once we got our model we were able to do averaging over a time period, (so about
 
 ## API's
 
-##Problems and Potential Solutions
+## Problems and Potential Solutions
 Unfortunately we were not able to demo and the reason was hardware. The Dragon board did not supply use with the hardware we needed. We spent most of our time downloading dependencies, fixing network errors, and downloading tensorflow. Tensorflow is not an easy library to download to begin with and putting it on such a small machine with its own Debian distribution of Linux spilled disaster every where.
 
 Of course we could have dealt with this issue by using another device that could maintain communication with the bluetooth armbands, but most of these were taken and we were determined to make it work. If we ever get a chance to work with those armbands again, we would defintely use a different mini computer (probably a respberry pi).
