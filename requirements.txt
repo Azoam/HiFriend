@@ -44,7 +44,7 @@ six==1.11.0
 sklearn==0.0
 stripe==1.79.1
 tensorboard==1.7.0
-tensorflow==1.7.0
+tensorflow==2.7.2
 termcolor==1.1.0
 twilio==6.11.0
 urllib3==1.22
