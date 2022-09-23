@@ -27,7 +27,7 @@ mock==2.0.0
 numpy==1.14.2
 pandas==0.22.0
 pbr==4.0.1
-protobuf==3.5.2.post1
+protobuf==3.18.3
 pycparser==2.18
 PyJWT==1.6.1
 pyOpenSSL==17.5.0
